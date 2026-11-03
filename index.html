@@ -1,0 +1,774 @@
+﻿<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>我的學習歷程 | Learning Journey</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f0f2f5;
+      --card-bg: #ffffff;
+      --text: #111111;
+      --text-secondary: #5f5f5f;
+      --accent: #e60023;
+      --accent-hover: #ad081b;
+      --border: #efefef;
+      --shadow: 0 1px 2px rgba(0,0,0,0.1), 0 2px 8px rgba(0,0,0,0.08);
+      --shadow-hover: 0 4px 12px rgba(0,0,0,0.15);
+      --radius: 16px;
+      --radius-sm: 12px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans TC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+    }
+
+    .header-inner {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #e60023, #ff6b6b);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+    }
+
+    .logo-text {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .search-box {
+      flex: 1;
+      max-width: 480px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 16px 12px 44px;
+      border: none;
+      background: #e9e9e9;
+      border-radius: 24px;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: background 0.2s, box-shadow 0.2s;
+    }
+
+    .search-box input:focus {
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(230,0,35,0.15);
+    }
+
+    .search-box svg {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #767676;
+      width: 18px;
+      height: 18px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+
+    .btn {
+      padding: 10px 16px;
+      border-radius: 24px;
+      border: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      background: #e9e9e9;
+    }
+
+    /* Categories */
+    .categories {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 24px 8px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .categories::-webkit-scrollbar {
+      display: none;
+    }
+
+    .cat-btn {
+      flex-shrink: 0;
+      padding: 10px 18px;
+      border-radius: 24px;
+      border: none;
+      background: #e9e9e9;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cat-btn:hover {
+      background: #dcdcdc;
+    }
+
+    .cat-btn.active {
+      background: var(--text);
+      color: white;
+    }
+
+    /* Hero */
+    .hero {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 24px 16px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 16px;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    /* Masonry Grid */
+    .masonry {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px 16px 60px;
+      column-count: 5;
+      column-gap: 16px;
+    }
+
+    @media (max-width: 1200px) {
+      .masonry { column-count: 4; }
+    }
+    @media (max-width: 900px) {
+      .masonry { column-count: 3; }
+    }
+    @media (max-width: 640px) {
+      .masonry { column-count: 2; }
+      .hero h1 { font-size: 24px; }
+      .logo-text { display: none; }
+    }
+    @media (max-width: 400px) {
+      .masonry { column-count: 1; }
+    }
+
+    .pin {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .pin:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .pin-img-wrap {
+      position: relative;
+      overflow: hidden;
+      background: #e0e0e0;
+    }
+
+    .pin-img-wrap img {
+      width: 100%;
+      display: block;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .pin:hover .pin-img-wrap img {
+      transform: scale(1.04);
+    }
+
+    .pin-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.25s;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding: 12px;
+      gap: 8px;
+    }
+
+    .pin:hover .pin-overlay {
+      opacity: 1;
+    }
+
+    .pin-action {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: white;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.2s;
+    }
+
+    .pin-action:hover {
+      transform: scale(1.1);
+    }
+
+    .pin-body {
+      padding: 12px 14px 16px;
+    }
+
+    .pin-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 12px;
+      background: #f0f0f0;
+      color: #555;
+    }
+
+    .tag.course { background: #e3f2fd; color: #1565c0; }
+    .tag.club { background: #f3e5f5; color: #7b1fa2; }
+    .tag.award { background: #fff3e0; color: #ef6c00; }
+    .tag.volunteer { background: #e8f5e9; color: #2e7d32; }
+    .tag.self { background: #fce4ec; color: #c2185b; }
+    .tag.project { background: #e0f7fa; color: #00838f; }
+
+    .pin-title {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .pin-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .pin-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 10px;
+      font-size: 12px;
+      color: #888;
+    }
+
+    .pin-meta img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 32px 24px;
+      color: #888;
+      font-size: 13px;
+      border-top: 1px solid var(--border);
+      background: white;
+    }
+
+    /* Filter hide */
+    .pin.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">學</div>
+        <span class="logo-text">學習歷程</span>
+      </a>
+      <div class="search-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input type="text" id="searchInput" placeholder="搜尋課程成果、多元表現、競賽...">
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-ghost">關於我</button>
+        <button class="btn btn-primary">上傳成果</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Categories -->
+  <div class="categories" id="categories">
+    <button class="cat-btn active" data-filter="all">全部</button>
+    <button class="cat-btn" data-filter="course">課程成果</button>
+    <button class="cat-btn" data-filter="project">專題研究</button>
+    <button class="cat-btn" data-filter="club">社團活動</button>
+    <button class="cat-btn" data-filter="award">競賽獎項</button>
+    <button class="cat-btn" data-filter="volunteer">志工服務</button>
+    <button class="cat-btn" data-filter="self">自主學習</button>
+  </div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <h1>我的學習歷程與多元表現</h1>
+    <p>記錄每一次成長、每一次挑戰與每一次突破。用作品說話，讓故事被看見。</p>
+  </section>
+
+  <!-- Masonry -->
+  <main class="masonry" id="masonry">
+    <!-- Pin 1 -->
+    <article class="pin" data-category="project">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=400&h=500&fit=crop" alt="專題研究" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action" title="收藏">♥</button>
+          <button class="pin-action" title="分享">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag project">專題研究</span></div>
+        <h3 class="pin-title">AI 輔助學習系統開發專題</h3>
+        <p class="pin-desc">結合機器學習與教育科技，開發個人化學習推薦系統，並完成使用者測試與成效分析。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=1" alt="">
+          <span>2025 學年度 · 資訊專題</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 2 -->
+    <article class="pin" data-category="award">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1567427017947-545c5f8d16ad?w=400&h=320&fit=crop" alt="競賽" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag award">競賽獎項</span></div>
+        <h3 class="pin-title">全國高中職程式設計競賽 金獎</h3>
+        <p class="pin-desc">與隊友合作完成演算法優化與前端介面設計，最終獲得金獎肯定。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=2" alt="">
+          <span>2024 · 資訊競賽</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 3 -->
+    <article class="pin" data-category="club">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&h=450&fit=crop" alt="社團" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag club">社團活動</span></div>
+        <h3 class="pin-title">資訊社社長 · 帶領 40 位社員</h3>
+        <p class="pin-desc">規劃課程、舉辦黑客松與校外參訪，培養團隊協作與領導能力。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=3" alt="">
+          <span>2023-2025 · 社團</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 4 -->
+    <article class="pin" data-category="volunteer">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&h=380&fit=crop" alt="志工" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag volunteer">志工服務</span></div>
+        <h3 class="pin-title">偏鄉數位教學志工</h3>
+        <p class="pin-desc">利用寒暑假前往偏鄉小學教授程式與數位素養，累計服務超過 120 小時。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=4" alt="">
+          <span>2024-2025 · 志工</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 5 -->
+    <article class="pin" data-category="course">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=280&fit=crop" alt="課程" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag course">課程成果</span></div>
+        <h3 class="pin-title">微積分與線性代數學習歷程</h3>
+        <p class="pin-desc">透過筆記整理、題目練習與同儕討論，持續精進數學邏輯與抽象思考能力。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=5" alt="">
+          <span>高二 · 數學</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 6 -->
+    <article class="pin" data-category="self">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?w=400&h=520&fit=crop" alt="自主學習" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag self">自主學習</span></div>
+        <h3 class="pin-title">自學 Python 資料分析 6 個月</h3>
+        <p class="pin-desc">完成 Coursera 課程並實作個人資料視覺化專案，掌握 Pandas 與資料清洗技巧。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=6" alt="">
+          <span>2025 · 自主學習</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 7 -->
+    <article class="pin" data-category="project">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=400&h=360&fit=crop" alt="專題" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag project">專題研究</span></div>
+        <h3 class="pin-title">永續校園能源監測系統</h3>
+        <p class="pin-desc">使用感測器與 IoT 技術監控校園用電，提出節能改善建議並獲得校方採用。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=7" alt="">
+          <span>2025 · 專題</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 8 -->
+    <article class="pin" data-category="award">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?w=400&h=420&fit=crop" alt="演講" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag award">競賽獎項</span></div>
+        <h3 class="pin-title">全國科展 優等獎</h3>
+        <p class="pin-desc">研究主題「利用深度學習辨識植物病害」，從實驗設計到論文撰寫全程參與。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=8" alt="">
+          <span>2024 · 科展</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 9 -->
+    <article class="pin" data-category="club">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=300&fit=crop" alt="社團" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag club">社團活動</span></div>
+        <h3 class="pin-title">辯論社 · 校際辯論賽亞軍</h3>
+        <p class="pin-desc">訓練邏輯思辨、臨場反應與團隊合作，多次代表學校參加校際比賽。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=9" alt="">
+          <span>2023-2024 · 社團</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 10 -->
+    <article class="pin" data-category="volunteer">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=400&h=480&fit=crop" alt="志工" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag volunteer">志工服務</span></div>
+        <h3 class="pin-title">圖書館閱讀推廣志工</h3>
+        <p class="pin-desc">協助規劃兒童閱讀活動與故事時間，培養溝通表達與服務熱忱。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=10" alt="">
+          <span>2024 · 志工</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 11 -->
+    <article class="pin" data-category="course">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=400&h=340&fit=crop" alt="課程" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag course">課程成果</span></div>
+        <h3 class="pin-title">英文簡報與國際交流課程</h3>
+        <p class="pin-desc">完成多場全英文簡報，並與日本姊妹校進行線上文化交流活動。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=11" alt="">
+          <span>高三 · 英文</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 12 -->
+    <article class="pin" data-category="self">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=400&fit=crop" alt="程式" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag self">自主學習</span></div>
+        <h3 class="pin-title">前端網頁設計自學專案</h3>
+        <p class="pin-desc">從 HTML/CSS 基礎到響應式設計，完成個人作品集網站並持續優化。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=12" alt="">
+          <span>2025 · 自主學習</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 13 -->
+    <article class="pin" data-category="project">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=400&h=290&fit=crop" alt="企劃" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag project">專題研究</span></div>
+        <h3 class="pin-title">校園減塑行動企劃</h3>
+        <p class="pin-desc">調查校園塑膠使用現況，提出可執行的減塑方案並推動校內政策。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=13" alt="">
+          <span>2024 · 專題</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 14 -->
+    <article class="pin" data-category="award">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&h=460&fit=crop" alt="獲獎" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag award">競賽獎項</span></div>
+        <h3 class="pin-title">全國學生創意設計大賽 銀獎</h3>
+        <p class="pin-desc">以「智慧校園導覽 App」為主題，結合 UX 設計與程式實作獲得銀獎。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=14" alt="">
+          <span>2025 · 設計競賽</span>
+        </div>
+      </div>
+    </article>
+
+    <!-- Pin 15 -->
+    <article class="pin" data-category="course">
+      <div class="pin-img-wrap">
+        <img src="https://images.unsplash.com/photo-1588196743295-4b5d6b1e5f6a?w=400&h=350&fit=crop" alt="實驗" loading="lazy">
+        <div class="pin-overlay">
+          <button class="pin-action">♥</button>
+          <button class="pin-action">↗</button>
+        </div>
+      </div>
+      <div class="pin-body">
+        <div class="pin-tags"><span class="tag course">課程成果</span></div>
+        <h3 class="pin-title">生物實驗報告 · 植物光合作用</h3>
+        <p class="pin-desc">設計控制變因實驗，完整記錄觀察與數據分析，培養科學探究能力。</p>
+        <div class="pin-meta">
+          <img src="https://i.pravatar.cc/48?u=15" alt="">
+          <span>高一 · 生物</span>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 我的學習歷程 · 以 Pinterest 風格呈現多元表現與成長軌跡</p>
+  </footer>
+
+  <script>
+    // Category filter
+    const catBtns = document.querySelectorAll('.cat-btn');
+    const pins = document.querySelectorAll('.pin');
+    const searchInput = document.getElementById('searchInput');
+
+    catBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        catBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter;
+
+        pins.forEach(pin => {
+          if (filter === 'all' || pin.dataset.category === filter) {
+            pin.classList.remove('hidden');
+          } else {
+            pin.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // Simple search
+    searchInput.addEventListener('input', (e) => {
+      const query = e.target.value.toLowerCase().trim();
+      const activeFilter = document.querySelector('.cat-btn.active').dataset.filter;
+
+      pins.forEach(pin => {
+        const title = pin.querySelector('.pin-title').textContent.toLowerCase();
+        const desc = pin.querySelector('.pin-desc').textContent.toLowerCase();
+        const matchSearch = !query || title.includes(query) || desc.includes(query);
+        const matchCat = activeFilter === 'all' || pin.dataset.category === activeFilter;
+
+        if (matchSearch && matchCat) {
+          pin.classList.remove('hidden');
+        } else {
+          pin.classList.add('hidden');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
